@@ -2,7 +2,7 @@
 
 ## API Web Server:
 
-### CRM API Web Server for Small Businesses and Freelancers
+### Customer Relationship Management (CRM) API Web Server for Small Businesses and Freelancers
 
 ## Q1:
 
