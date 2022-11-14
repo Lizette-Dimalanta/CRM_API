@@ -1,27 +1,38 @@
 from flask import Flask
-from db import db
+from init import db, ma, bc, jwt
 from flask_marshmallow import Marshmallow
 
-from controllers.customers_controller import customers_bp
-from controllers.customers_controller import profiles_bp
+# Import Controllers
+# from controllers.customers_controller import customers_bp
+from controllers.profiles_controller import profiles_bp
 
 import os
 
+# Defines App
 def create_app():
     app = Flask(__name__)
 
+    # Disable JSON sort
     app.config['JSON_SORT_KEYS'] = False
+
+    # Retrieve Database URL
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
+    app.config['JSON_SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
+    # Creating Objects
     db.init_app(app)
     ma.init_app(app)
+    bc.init_app(app)
+    jwt.init_app(app)
 
-    app.register_blueprint(customers_bp)
+    # Activate Blueprints
+    # app.register_blueprint(customers_bp)
     app.register_blueprint(profiles_bp)
 
-    # @app.route('/')
-    # def index():
-    #     return 'Hello'
+    @app.route('/')
+    def index():
+        return 'Hello'
 
     return app
 

@@ -1,5 +1,5 @@
-from flask import Blueprint
-from db import db
+from flask import Blueprint, Request
+from init import db
 from models.profile import Profile, ProfileSchema
 
 profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
@@ -7,7 +7,7 @@ profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
 @profiles_bp.route('/')
 # @jwt_required()
 def all_profiles():
-    stmt= db.select(Profile).order_by(Profile.id.desc(), Profile.title)
+    stmt= db.select(Profile)
     profiles = db.session.scalars(stmt)
     return ProfileSchema(many=True).dump(profiles)
 
