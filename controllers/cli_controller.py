@@ -32,8 +32,8 @@ def seed_db():
 
     addresses = [
         Address(
-            apt_number = '',
-            street_number = '13',
+            apt_number = '2',
+            street_number = '8',
             street_name = 'Hurricane',
             street_type = 'Lane',
             suburb      = 'Noosa',
