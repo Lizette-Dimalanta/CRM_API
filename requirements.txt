@@ -19,6 +19,6 @@ PyJWT==2.6.0
 pyparsing==3.0.9
 python-dotenv==0.21.0
 six==1.16.0
-SQLAlchemy==1.4.43
+SQLAlchemy==1.4.44
 Werkzeug==2.2.2
 zipp==3.10.0

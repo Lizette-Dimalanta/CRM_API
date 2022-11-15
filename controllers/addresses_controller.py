@@ -1,18 +1,23 @@
 from flask import Blueprint, request
 from init import db
 from models.address import Address, AddressSchema
+from flask_jwt_extended import jwt_required
+from controllers.auth_controller import authorize
 
 addresses_bp = Blueprint('addresses', __name__, url_prefix='/addresses')
 
 @addresses_bp.route('/')
-# @jwt_required()
+@jwt_required()
 def get_all_addresses():
+    authorize()
     stmt      = db.select(Address)
     addresses = db.session.scalars(stmt)
     return AddressSchema(many=True).dump(addresses)
 
 @addresses_bp.route('/<int:id>/')
+@jwt_required()
 def get_one_address(id):
+    authorize()
     stmt    = db.select(Address).filter_by(id=id)
     address = db.session.scalar(stmt)
     if address:
@@ -21,7 +26,9 @@ def get_one_address(id):
         return {'error': f'Addresses not found with id {id}'}, 404
 
 @addresses_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_address():
+    authorize()
     # Create new Address model instance
     address = Address(
         apt_number      = request.json['apt_number'],
@@ -43,7 +50,9 @@ def create_address():
 #     return {'error': 'Email address already in use'}, 409
 
 @addresses_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
+@jwt_required()
 def update_one_address(id):
+    authorize()
     stmt    = db.select(Address).filter_by(id=id)
     address = db.session.scalar(stmt)
     if address:
@@ -62,7 +71,9 @@ def update_one_address(id):
         return {'error': f'Address not found with id {id}'}, 404
 
 @addresses_bp.route('/<int:id>/', methods=['DELETE'])
+@jwt_required()
 def delete_one_address(id):
+    authorize('admin')
     stmt    = db.select(Address).filter_by(id=id)
     address = db.session.scalar(stmt)
     if address:

@@ -1,8 +1,9 @@
 from flask import Blueprint
 from init import db, bc
+from datetime import date
+from models.employee import Employee
 from models.profile import Profile
 from models.address import Address
-# from models.customer import Customer
 
 db_commands = Blueprint('db', __name__)
 
@@ -20,46 +21,56 @@ def drop_db():
 
 @db_commands.cli.command('seed')
 def seed_db():
-    profiles = [
-        Profile(
-        first_name  = 'Michelle',
-        last_name   = 'Joy',
-        birthday    = '24-08-1987',
-        phone       = '0474397540',
-        email = 'michellejoy@email.com',
-    )
-    ]
-
     addresses = [
         Address(
-            apt_number = '2',
+            apt_number    = '2',
             street_number = '8',
-            street_name = 'Hurricane',
-            street_type = 'Lane',
-            suburb      = 'Noosa',
-            state       = 'Queensland',
-            zip         = '4562',
-            country     = 'Australia'
+            street_name   = 'Hurricane',
+            street_type   = 'Lane',
+            suburb        = 'Noosa',
+            state         = 'Queensland',
+            zip           = '4562',
+            country       = 'Australia'
         )
     ]
 
-    # Add information into commit
+    # Add employees to database
+    db.session.add_all(addresses)
+    # Push to database
+    db.session.commit()
+
+    profiles = [
+        Profile(
+            first_name  = 'Michelle',
+            last_name   = 'Joy',
+            birthday    = '24-08-1987',
+            phone       = '0474397540',
+            email       = 'michellejoy@email.com',
+            is_customer = False,
+            join_date   = '28-10-2020',
+            occupation  = 'Lead Vocalist',
+            company     = 'Cannons',
+            address     = addresses[0]
+    )
+    ]
+
+    # Add profiles to database
     db.session.add_all(profiles)
     # Push to database
     db.session.commit()
 
-    # customers = [
-    #     Customer(
-    #         join_date       = '24-05-2022',
-    #         expected_close  = '31-06-2023',
-    #         job_title       = 'Lead Vocalist',
-    #         company         = 'Cannons'
-    #     )
-    # ]
+    employees = [
+        Employee(
+            username = 'devtest',
+            password = bc.generate_password_hash('french fires').decode('utf-8'),
+            is_admin = True,
+            profile = profiles[0]
+        )
+    ]
 
-    # # Add information into commit
-    # db.session.add_all(customers)
-    # # Push to database
-    # db.session.commit()
+    # Add employees to database
+    db.session.add_all(employees)
+    # Push to database
+    db.session.commit()
 
     print('Tables Seeded.')

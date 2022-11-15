@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from controllers.auth_controller import auth_bp
 from controllers.profiles_controller import profiles_bp
 from controllers.addresses_controller import addresses_bp
+from controllers.cli_controller import db_commands
 
 import os
 
@@ -14,9 +15,14 @@ import os
 def create_app():
     app = Flask(__name__)
 
+    # Error Handlers
     @app.errorhandler(404)
     def not_found(err):
         return {'error': str(err)}, 404
+
+    @app.errorhandler(401)
+    def unauthorized(err):
+        return {'error': str(err)}, 401
 
     # Disable JSON sort
     app.config['JSON_SORT_KEYS'] = False
@@ -35,6 +41,7 @@ def create_app():
 
     # Activate Blueprints
     # app.register_blueprint(customers_bp)
+    app.register_blueprint(db_commands)
     app.register_blueprint(auth_bp)
     app.register_blueprint(profiles_bp)
     app.register_blueprint(addresses_bp)

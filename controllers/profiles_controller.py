@@ -1,11 +1,13 @@
 from flask import Blueprint, request
 from init import db
 from models.profile import Profile, ProfileSchema
+from flask_jwt_extended import jwt_required
+from controllers.auth_controller import authorize
 
 profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
 
 @profiles_bp.route('/')
-# @jwt_required()
+@jwt_required()
 def get_all_profiles():
     stmt     = db.select(Profile)
     profiles = db.session.scalars(stmt)
@@ -21,7 +23,9 @@ def get_one_profile(id):
         return {'error': f'Profile not found with id {id}'}, 404
 
 @profiles_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_profile():
+    authorize()
     # Create new Profile model instance
     profile = Profile(
         first_name  = request.json['first_name'],
@@ -46,7 +50,9 @@ def create_profile():
 #     return {'error': 'Email address already in use'}, 409
 
 @profiles_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
+@jwt_required()
 def update_one_profile(id):
+    authorize()
     stmt    = db.select(Profile).filter_by(id=id)
     profile = db.session.scalar(stmt)
     if profile:
@@ -55,10 +61,10 @@ def update_one_profile(id):
         profile.birthday    = request.json.get('birthday') or profile.birthday
         profile.phone       = request.json.get('phone') or profile.phone
         profile.email       = request.json.get('email') or profile.email
-        is_customer         = request.json.get('is_customer') or profile.is_customer
-        join_date           = request.json.get('join_date') or profile.join_date
-        occupation          = request.json.get('occupation') or profile.occupation
-        company             = request.json.get('company') or profile.company
+        profile.is_customer = request.json.get('is_customer') or profile.is_customer
+        profile.join_date   = request.json.get('join_date') or profile.join_date
+        profile.occupation  = request.json.get('occupation') or profile.occupation
+        profile.company     = request.json.get('company') or profile.company
         profile.address     = request.json.get('address') or profile.address
         # Updates Changes
         db.session.commit()
@@ -68,7 +74,9 @@ def update_one_profile(id):
 
 
 @profiles_bp.route('/<int:id>/', methods=['DELETE'])
+@jwt_required()
 def delete_one_profile(id):
+    authorize('admin')
     stmt    = db.select(Profile).filter_by(id=id)
     profile = db.session.scalar(stmt)
     if profile:

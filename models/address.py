@@ -14,17 +14,15 @@ class Address(db.Model):
     state         = db.Column(db.String(100), nullable=False)
     zip           = db.Column(db.Integer, nullable=False)
     country       = db.Column(db.String(100), nullable=False)
-    
     # Foreign Key
-    profile_id    = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
+    # profile_id    = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
     # Foreign Key Relationship
-    profile       = db.relationship('Profile', back_populates = 'addresses')
+    profile       = db.relationship('Profile', back_populates='profiles', cascade ='all, delete')
  
 # Marshmallow: Address Schema
 class AddressSchema(ma.Schema):
     # Nested Attributes
-    profile     = fields.Nested('ProfileSchema')
-
+    profile       = fields.List(fields.Nested('ProfileSchema', exclude=['profile']))
     class Meta:
         fields    = ('id', 'apt_number', 'street_number', 'street_name', 'suburb', 'state', 'zip', 'country')
         ordered   = True

@@ -1,5 +1,6 @@
 from init import db, ma
 from marshmallow import fields
+from flask_jwt_extended import jwt_required
 
 # SQLAlchemy: Profile Details
 class Profile(db.Model):
@@ -13,19 +14,24 @@ class Profile(db.Model):
     email       = db.Column(db.String(100), unique=True, nullable=False)
     is_customer = db.Column(db.Boolean, default=True, nullable=False)
     join_date   = db.Column(db.Date, nullable=False)
-    occupation   = db.Column(db.String(100))
+    occupation  = db.Column(db.String(100))
     company     = db.Column(db.String(100))
-    
     # Foreign Key
     address_id  = db.Column(db.Integer, db.ForeignKey('addresses.id'), nullable=False)
     # Foreign Key Relationship
-    address     = db.relationship('Address', back_populates='profiles', cascade='all, delete')
+    employee    = db.relationship('Employee', back_populates='profiles', cascade ='all, delete')
+    address     = db.relationship('Address', back_populates='profiles', cascade ='all, delete')
 
 # Marshmallow: Profile Schema
 class ProfileSchema(ma.Schema):
     # Nested Attributes
-    address     = fields.List(fields.Nested('AddressSchema', exclude = ['profile']))
-
+    # employee    = fields.List(fields.Nested('EmployeeSchema'), exclude=['profile'])
+    address     = fields.List(fields.Nested('AddressSchema') )
     class Meta:
         fields  = ('id', 'first_name', 'last_name', 'birthday', 'phone', 'email', 'is_customer', 'join_date', 'occupation', 'address')
         ordered = True
+
+
+    # correct_answer_id = Column(
+    #     Integer, ForeignKey("Answer.id", name="fk_question_correct_answer")
+    # )``
