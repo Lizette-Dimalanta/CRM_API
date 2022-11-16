@@ -21,6 +21,24 @@ def drop_db():
 
 @db_commands.cli.command('seed')
 def seed_db():
+    profiles = [
+        Profile(
+            first_name  = 'Michelle',
+            last_name   = 'Joy',
+            phone       = '0474397540',
+            email       = 'michellejoy@email.com',
+            is_customer = False,
+            join_date   = date.today(),
+            occupation  = 'Lead Vocalist',
+            company     = 'Cannons'
+    )
+    ]
+
+    # Add profiles to database
+    db.session.add_all(profiles)
+    # Push to database
+    db.session.commit()
+
     addresses = [
         Address(
             apt_number    = '2',
@@ -30,32 +48,13 @@ def seed_db():
             suburb        = 'Noosa',
             state         = 'Queensland',
             zip           = '4562',
-            country       = 'Australia'
+            country       = 'Australia',
+            profile       = profiles[0]
         )
     ]
 
     # Add employees to database
     db.session.add_all(addresses)
-    # Push to database
-    db.session.commit()
-
-    profiles = [
-        Profile(
-            first_name  = 'Michelle',
-            last_name   = 'Joy',
-            birthday    = '24-08-1987',
-            phone       = '0474397540',
-            email       = 'michellejoy@email.com',
-            is_customer = False,
-            join_date   = '28-10-2020',
-            occupation  = 'Lead Vocalist',
-            company     = 'Cannons',
-            address     = addresses[0]
-    )
-    ]
-
-    # Add profiles to database
-    db.session.add_all(profiles)
     # Push to database
     db.session.commit()
 

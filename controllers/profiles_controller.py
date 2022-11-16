@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from datetime import date
 from init import db
 from models.profile import Profile, ProfileSchema
 from flask_jwt_extended import jwt_required
@@ -30,11 +31,10 @@ def create_profile():
     profile = Profile(
         first_name  = request.json['first_name'],
         last_name   = request.json['last_name'],
-        birthday    = request.json['birthday'],
         phone       = request.json['phone'],
         email       = request.json['email'],
         is_customer = request.json['is_customer'],
-        join_date   = request.json['join_date'],
+        join_date   = date.today(),
         occupation   = request.json['occupation'],
         company     = request.json['company'],
     # Foreign Key Relationship
@@ -58,7 +58,6 @@ def update_one_profile(id):
     if profile:
         profile.first_name  = request.json.get('first_name') or profile.first_name
         profile.last_name   = request.json.get('last_name') or profile.last_name
-        profile.birthday    = request.json.get('birthday') or profile.birthday
         profile.phone       = request.json.get('phone') or profile.phone
         profile.email       = request.json.get('email') or profile.email
         profile.is_customer = request.json.get('is_customer') or profile.is_customer

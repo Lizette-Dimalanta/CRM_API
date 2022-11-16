@@ -10,14 +10,14 @@ class Address(db.Model):
     street_number = db.Column(db.Integer, nullable=False)
     street_name   = db.Column(db.String(100), nullable=False)
     suburb        = db.Column(db.String(100), nullable=False)
-    street_type   = db.Column(db.String(100), nullable=False)
+    street_type   = db.Column(db.String(20), nullable=False)
     state         = db.Column(db.String(100), nullable=False)
     zip           = db.Column(db.Integer, nullable=False)
     country       = db.Column(db.String(100), nullable=False)
     # Foreign Key
-    # profile_id    = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
+    profile_id    = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
     # Foreign Key Relationship
-    profile       = db.relationship('Profile', back_populates='profiles', cascade ='all, delete')
+    profile       = db.relationship('Profile', back_populates='address')
  
 # Marshmallow: Address Schema
 class AddressSchema(ma.Schema):

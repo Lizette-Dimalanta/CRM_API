@@ -11,7 +11,7 @@ class Employee(db.Model):
     # Foreign Key
     profile_id    = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
         # Foreign Key Relationship
-    profile    = db.relationship('Profile', back_populates='employees', cascade ='all, delete')
+    profile    = db.relationship('Profile', back_populates='employee')
 
 class EmployeeSchema(ma.Schema):
     # Nested Attributes
