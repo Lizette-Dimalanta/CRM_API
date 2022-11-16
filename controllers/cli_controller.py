@@ -4,6 +4,7 @@ from datetime import date
 from models.employee import Employee
 from models.profile import Profile
 from models.address import Address
+from models.complaint import Complaint
 
 db_commands = Blueprint('db', __name__)
 
@@ -61,14 +62,36 @@ def seed_db():
     employees = [
         Employee(
             username = 'devtest',
-            password = bc.generate_password_hash('french fires').decode('utf-8'),
+            password = bc.generate_password_hash('frenchfries').decode('utf-8'),
             is_admin = True,
             profile = profiles[0]
         )
     ]
 
-    # Add employees to database
-    db.session.add_all(employees)
+    # Add complaints to database
+    db.session.add_all(complaints)
+    # Push to database
+    db.session.commit()
+
+    complaints = [
+        Complaint(
+            subject = 'Devtest 1',
+            description = 'This is a test complaint.',
+            entry_time  = date.now(),
+            profile = profiles[0],
+            employee = employees[0]
+        ),
+        Complaint(
+            subject = 'Devtest 2',
+            description = 'This is a test complaint.',
+            entry_time  = date.now(),
+            profile = profiles[0],
+            employee = employees[0]
+        )
+    ]
+
+    # Add complaints to database
+    db.session.add_all(complaints)
     # Push to database
     db.session.commit()
 

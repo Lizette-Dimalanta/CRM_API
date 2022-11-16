@@ -26,7 +26,7 @@ def auth_register():
         db.session.commit()
         # Respond to client
         return EmployeeSchema().dump(employee), 201
-    except IntegrityError:
+    except IntegrityError: 
         return {'error': 'Username already in use'}, 409
 
 @auth_bp.route('/login/', methods=['POST'])

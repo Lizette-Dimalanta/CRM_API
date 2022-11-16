@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from init import db
 from models.address import Address, AddressSchema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from controllers.auth_controller import authorize
 
 addresses_bp = Blueprint('addresses', __name__, url_prefix='/addresses')
@@ -38,7 +38,8 @@ def create_address():
         street_type     = request.json['street_type'],
         state           = request.json['state'],
         zip             = request.json['zip'],
-        country         = request.json['country']
+        country         = request.json['country'],
+        employee_id     = get_jwt_identity()
     )
     # Add and commit user to DB
     db.session.add(address)

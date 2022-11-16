@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from datetime import date
 from init import db
 from models.profile import Profile, ProfileSchema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from controllers.auth_controller import authorize
 
 profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
@@ -37,6 +37,7 @@ def create_profile():
         join_date   = date.today(),
         occupation   = request.json['occupation'],
         company     = request.json['company'],
+        employee_id = get_jwt_identity(),
     # Foreign Key Relationship
         address     = request.json['address']
     )
