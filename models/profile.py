@@ -1,6 +1,6 @@
 from init import db, ma
 from marshmallow import fields
-from flask_jwt_extended import jwt_required
+from marshmallow.validate import Length, And, Regexp
 
 # SQLAlchemy: Profile Details
 class Profile(db.Model):
@@ -28,6 +28,21 @@ class ProfileSchema(ma.Schema):
     address     = fields.List(fields.Nested('AddressSchema'))
     complaints   = fields.List(fields.Nested('ComplaintSchema'), exclude=['complaints', 'profile'])
     task        = fields.List(fields.Nested('TaskSchema'), exclude=['task', 'profile'])
+
+    # Profile Validation
+    first_name = fields.String(required=True, validate=And(
+        Length(min=1, error='Must be at least 1 character.'), 
+        Regexp('^[a-zA-Z]+$', error='Only letters and spaces are allowed.')))
+    last_name = fields.String(required=True, validate=And(
+        Length(min=1, error='Must be at least 1 character.'), 
+        Regexp('^[a-zA-Z]+$', error='Only letters and spaces are allowed.')))
+    phone = fields.Integer(required=True, validate=And(
+        Length(min=8, error='Must be at least 8 character.'), 
+        Regexp('^[0-9]+$', error='Only numbers are allowed.')))
+    email = fields.String(required=True, validate=And(
+        Length(min=5, error='Must be at least 5 character.'), 
+        Regexp('^[a-zA-Z0-9 @.]+$', error='Only letters, numbers, and symbols @ and . are allowed.')))
+    is_customer = fields.Boolean(required=True)
 
     class Meta:
         fields  = ('id', 'first_name', 'last_name', 'phone', 'email', 'is_customer', 'join_date', 'occupation', 'employee', 'address', 'complaints', 'task')

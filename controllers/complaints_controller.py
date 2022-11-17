@@ -32,7 +32,7 @@ def create_complaint():
         subject     = request.json['subject'],
         description = request.json['description'],
         entry_time  = datetime.now(),
-        profile_id  = request.json['profile_id'],
+        profile_id  = request.json['profile.id'],
         employee_id = get_jwt_identity(),
     # Foreign Key Relationships 
         profile     = request.json['profile'],

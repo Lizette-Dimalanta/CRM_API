@@ -27,19 +27,20 @@ def get_one_profile(id):
 @jwt_required()
 def create_profile():
     authorize()
+    data = ProfileSchema().load(request.json)
     # Create new Profile model instance
     profile = Profile(
-        first_name  = request.json['first_name'],
-        last_name   = request.json['last_name'],
-        phone       = request.json['phone'],
-        email       = request.json['email'],
-        is_customer = request.json['is_customer'],
+        first_name  = data['first_name'],
+        last_name   = data['last_name'],
+        phone       = data['phone'],
+        email       = data['email'],
+        is_customer = data['is_customer'],
         join_date   = date.today(),
-        occupation  = request.json['occupation'],
-        company     = request.json['company'],
+        occupation  = data['occupation'],
+        company     = data['company'],
         employee_id = get_jwt_identity(),
     # Foreign Key Relationship
-        address     = request.json['address']
+        address     = data['address']
     )
     # Add and commit user to DB
     db.session.add(profile)
