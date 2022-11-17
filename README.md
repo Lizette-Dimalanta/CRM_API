@@ -4,6 +4,10 @@
 
 ### Customer Relationship Management (CRM) API Web Server for Freelancers
 
+## Repository
+
+[LizetteDimalanta_T2A2](https://github.com/Lizette-Dimalanta/LizetteDimalanta_T2A2)
+
 ## API Installation Instructions
 
 1. Run your terminal application
@@ -81,62 +85,23 @@ However, custom development is not cheap. It may be a high cost for a small busi
 
 ![AddressModel](docs/addressmodel.jpg)
 
-**Attributes:**
-
-- `apt_number`
-- `street_number`
-- `street_name`
-- `suburb`
-- `street_type`
-- `state`
-- `zip`
-- `country`
-
-**Relations:**
-`profile`: Foreign Key (child)
-
-**Validation:**
 
 ### **Profile**
 
 ![ProfileModel](docs/profilemodel.jpg)
 
-**Attributes:**
-
-
-**Relations:**
-
-**Validation:**
-
 ### **Employee**
 
 ![EmployeeModel](docs/employeemodel.jpg)
 
-**Attributes:**
-
-**Relations:**
-
-**Validation:**
 
 ### **Complaint**
 
 ![ComplaintModel](docs/complaintmodel.jpg)
 
-**Attributes:**
-
-**Relations:**
-
-**Validation:**
-
 ### **Task**
 
 ![TaskModel](docs/taskmodel.jpg)
-
-**Attributes:**
-
-**Relations:**
-
-**Validation:**
 
 ## **Trello Board**
 
