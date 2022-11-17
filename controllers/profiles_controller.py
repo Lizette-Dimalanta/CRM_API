@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from datetime import date
+from datetime import date, datetime
 from init import db
 from models.profile import Profile, ProfileSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity

@@ -43,9 +43,6 @@ def create_complaint():
     db.session.commit()
     # Respond to client
     return ComplaintSchema().dump(complaint), 201
-# Add unique error: already in use
-# except IntegrityError:
-#     return {'error': 'Email address already in use'}, 409
 
 @complaints_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
@@ -59,12 +56,12 @@ def update_one_complaint(id):
         complaint.entry_time  = datetime.now() or complaint.entry_time
         complaint.occupation  = request.json.get('occupation') or complaint.occupation
         complaint.profile     = request.json.get('profile') or complaint.profile
-        complaint.employee     = request.json.get('employee') or complaint.employee
+        complaint.employee    = get_jwt_identity() or complaint.employee
         # Updates Changes
         db.session.commit()
         return ComplaintSchema().dump(complaint)
     else:
-        return {'error': f'Complaint not found with id {id}'}, 404
+        return {'error': f'Complaint not found with id {id}'}, 404 
 
 
 @complaints_bp.route('/<int:id>/', methods=['DELETE'])

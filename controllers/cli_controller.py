@@ -1,6 +1,6 @@
 from flask import Blueprint
 from init import db, bc
-from datetime import date
+from datetime import datetime, date
 from models.employee import Employee
 from models.profile import Profile
 from models.address import Address
@@ -31,8 +31,7 @@ def seed_db():
             is_customer = False,
             join_date   = date.today(),
             occupation  = 'Lead Vocalist',
-            company     = 'Cannons',
-            complaint   = ''
+            company     = 'Cannons'
     )
     ]
 
@@ -78,14 +77,7 @@ def seed_db():
         Complaint(
             subject = 'Devtest 1',
             description = 'This is a test complaint.',
-            entry_time  = date.now(),
-            profile = profiles[0],
-            employee = employees[0]
-        ),
-        Complaint(
-            subject = 'Devtest 2',
-            description = 'This is a test complaint.',
-            entry_time  = date.now(),
+            entry_time  = datetime.now(),
             profile = profiles[0],
             employee = employees[0]
         )

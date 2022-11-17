@@ -12,13 +12,13 @@ class Employee(db.Model):
     profile_id    = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
     # Foreign Key Relationship
     profile    = db.relationship('Profile', back_populates='employee', cascade ='all, delete')
-    complaints  = db.relationship('Complaint', back_populates='employee', cascade ='all, delete')
+    complaint  = db.relationship('Complaint', back_populates='employee', cascade ='all, delete')
 
 
 class EmployeeSchema(ma.Schema):
     # Nested Attributes
     profile       = fields.List(fields.Nested('ProfileSchema'))
-    complaints    = fields.List(fields.Nested('CommentSchema'), exclude=['employee'])
+    complaint    = fields.List(fields.Nested('CommentSchema'), exclude=['employee'])
 
     class Meta:
-        fields    = ('id', 'username', 'password', 'is_admin', 'profile', 'complaints')
+        fields    = ('id', 'username', 'password', 'is_admin', 'profile', 'complaint')
