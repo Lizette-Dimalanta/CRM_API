@@ -1,5 +1,6 @@
 from init import db, ma
 from marshmallow import fields
+from marshmallow.validate import Length
 
 # SQLAlchemy: Complaint Details
 class Complaint(db.Model):
@@ -21,6 +22,10 @@ class ComplaintSchema(ma.Schema):
     # Nested Attributes
     profile    = fields.List(fields.Nested('ProfileSchema'))
     employee   = fields.List(fields.Nested('EmployeeSchema'), exclude=['password','employee'])
+
+    # Complaint Validation
+    subject = fields.String(required=True, validate=Length(min=1, error='Must be at least 1 character.'))
+    description = fields.String(required=True, validate=Length(min=1, error='Must be at least 1 character.'))
 
     class Meta:
         fields  = ('id', 'subject', 'description', 'entry_time', 'profile', 'employee')

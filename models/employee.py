@@ -1,5 +1,7 @@
 from init import db, ma
 from marshmallow import fields
+from marshmallow import fields
+from marshmallow.validate import Length
 
 class Employee(db.Model):
     __tablename__ = 'employees'
@@ -21,6 +23,9 @@ class EmployeeSchema(ma.Schema):
     profile   = fields.List(fields.Nested('ProfileSchema'))
     complaints = fields.List(fields.Nested('ComplaintSchema'), exclude=['employee'])
     tasks      = fields.List(fields.Nested('TaskSchema'), exclude=['employee'])
+
+    # Employee Validation
+    username = fields.String(required=True, unique=True, validate=Length(min=1, error='Must be at least 1 character.'))
 
     class Meta:
         fields    = ('id', 'username', 'password', 'is_admin', 'profile', 'complaints', 'tasks')

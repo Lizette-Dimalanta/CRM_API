@@ -36,12 +36,8 @@ class ProfileSchema(ma.Schema):
     last_name = fields.String(required=True, validate=And(
         Length(min=1, error='Must be at least 1 character.'), 
         Regexp('^[a-zA-Z]+$', error='Only letters and spaces are allowed.')))
-    phone = fields.Integer(required=True, validate=And(
-        Length(min=8, error='Must be at least 8 character.'), 
-        Regexp('^[0-9]+$', error='Only numbers are allowed.')))
-    email = fields.String(required=True, validate=And(
-        Length(min=5, error='Must be at least 5 character.'), 
-        Regexp('^[a-zA-Z0-9 @.]+$', error='Only letters, numbers, and symbols @ and . are allowed.')))
+    phone = fields.Integer(required=True)
+    email = fields.String(required=True)
     is_customer = fields.Boolean(required=True)
 
     class Meta:

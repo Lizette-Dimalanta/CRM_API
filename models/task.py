@@ -34,7 +34,7 @@ class TaskSchema(ma.Schema):
     employee   = fields.List(fields.Nested('EmployeeSchema'), exclude=['password'])
 
     # Task Validation
-    name = fields.String(required=True, validate=And)
+    name = fields.String(required=True, validate=Length(min=1, error='Must be at least 1 character.'))
     status = fields.String(load_default=VALID_STATUSES[0], validate=OneOf(VALID_STATUSES))
     date_due = fields.String(required=True,validate=And(
         Regexp('^[a-zA-Z0-9]+$', error='Must be in format DAY, MONTH, YEAR')))
