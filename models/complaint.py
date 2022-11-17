@@ -9,9 +9,10 @@ class Complaint(db.Model):
     subject     = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     entry_time  = db.Column(db.Date)
+    # Foreign Keys
     profile_id  = db.Column(db.Integer, db.ForeignKey('profiles.id'), nullable=False)
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=False)
-    # Foreign Key Relationship
+    # Foreign Key Relationships
     profile     = db.relationship('Profile', back_populates='complaint', cascade ='all, delete')
     employee    = db.relationship('Employee', back_populates='complaint', cascade ='all, delete')
 

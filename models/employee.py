@@ -18,7 +18,7 @@ class Employee(db.Model):
 class EmployeeSchema(ma.Schema):
     # Nested Attributes
     profile       = fields.List(fields.Nested('ProfileSchema'))
-    complaints    = fields.List(fields.Nested('CommentSchema'))
+    complaints    = fields.List(fields.Nested('CommentSchema'), exclude=['employee'])
 
     class Meta:
         fields    = ('id', 'username', 'password', 'is_admin', 'profile', 'complaints')

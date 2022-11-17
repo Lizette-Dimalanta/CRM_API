@@ -23,10 +23,10 @@ class Profile(db.Model):
 # Marshmallow: Profile Schema
 class ProfileSchema(ma.Schema):
     # Nested Attributes
-    employee    = fields.List(fields.Nested('EmployeeSchema'), exclude=['password'])
+    employee    = fields.List(fields.Nested('EmployeeSchema'), exclude=['password', 'profile'])
     address     = fields.List(fields.Nested('AddressSchema'))
-    complaints  = fields.List(fields.Nested('ComplaintSchema'), exclude=['complaints'])
+    complaints  = fields.List(fields.Nested('ComplaintSchema'), exclude=['complaints', 'profile'])
 
     class Meta:
-        fields  = ('id', 'first_name', 'last_name', 'phone', 'email', 'is_customer', 'join_date', 'occupation', 'address', 'employee')
+        fields  = ('id', 'first_name', 'last_name', 'phone', 'email', 'is_customer', 'join_date', 'occupation', 'employee', 'address', 'complaints')
         ordered = True

@@ -31,7 +31,8 @@ def seed_db():
             is_customer = False,
             join_date   = date.today(),
             occupation  = 'Lead Vocalist',
-            company     = 'Cannons'
+            company     = 'Cannons',
+            complaint   = ''
     )
     ]
 

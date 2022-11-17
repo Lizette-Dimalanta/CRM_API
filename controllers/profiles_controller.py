@@ -8,7 +8,7 @@ from controllers.auth_controller import authorize
 profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
 
 @profiles_bp.route('/')
-@jwt_required()
+# @jwt_required()
 def get_all_profiles():
     stmt     = db.select(Profile)
     profiles = db.session.scalars(stmt)
@@ -35,7 +35,7 @@ def create_profile():
         email       = request.json['email'],
         is_customer = request.json['is_customer'],
         join_date   = date.today(),
-        occupation   = request.json['occupation'],
+        occupation  = request.json['occupation'],
         company     = request.json['company'],
         employee_id = get_jwt_identity(),
     # Foreign Key Relationship

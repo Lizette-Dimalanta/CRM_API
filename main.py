@@ -4,10 +4,11 @@ from flask_marshmallow import Marshmallow
 
 # Import Controllers
 # from controllers.customers_controller import customers_bp
+from controllers.cli_controller import db_commands
 from controllers.auth_controller import auth_bp
 from controllers.profiles_controller import profiles_bp
 from controllers.addresses_controller import addresses_bp
-from controllers.cli_controller import db_commands
+from controllers.complaints_controller import complaints_bp
 
 import os
 
@@ -45,6 +46,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(profiles_bp)
     app.register_blueprint(addresses_bp)
+    app.register_blueprint(complaints_bp)
 
     @app.route('/')
     def index():

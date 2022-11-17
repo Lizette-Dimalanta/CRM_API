@@ -22,7 +22,7 @@ class Address(db.Model):
 # Marshmallow: Address Schema
 class AddressSchema(ma.Schema):
     # Nested Attributes
-    profile       = fields.Nested('ProfileSchema')
+    profile       = fields.List(fields.Nested('ProfileSchema'), exclude=['address'])
     class Meta:
-        fields    = ('id', 'apt_number', 'street_number', 'street_name', 'suburb', 'state', 'zip', 'country', 'profile')
+        fields    = ('id', 'apt_number', 'street_number', 'street_name', 'suburb', 'state', 'zip', 'country')
         ordered   = True
