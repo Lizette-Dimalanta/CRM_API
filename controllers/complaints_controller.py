@@ -7,6 +7,7 @@ from controllers.auth_controller import authorize
 
 complaints_bp = Blueprint('complaints', __name__, url_prefix='/complaints')
 
+# Retrieve All Complaints
 @complaints_bp.route('/')
 # @jwt_required()
 def get_all_complaints():
@@ -14,6 +15,7 @@ def get_all_complaints():
     complaints = db.session.scalars(stmt)
     return ComplaintSchema(many=True).dump(complaints)
 
+# Retrieve One Complaint
 @complaints_bp.route('/<int:id>/')
 def get_one_complaint(id):
     stmt    = db.select(Complaint).filter_by(id=id)
@@ -23,6 +25,7 @@ def get_one_complaint(id):
     else:
         return {'error': f'Complaint not found with id {id}'}, 404
 
+# Create New Complaint: AUTHORISATION REQUIRED
 @complaints_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_complaint():
@@ -44,6 +47,7 @@ def create_complaint():
     # Respond to client
     return ComplaintSchema().dump(complaint), 201
 
+# Update Complaint: AUTHORISATION REQUIRED
 @complaints_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_complaint(id):
@@ -62,7 +66,7 @@ def update_one_complaint(id):
     else:
         return {'error': f'Complaint not found with id {id}'}, 404 
 
-
+# Delete Complaint: AUTHORISATION REQUIRED
 @complaints_bp.route('/<int:id>/', methods=['DELETE'])
 @jwt_required()
 def delete_one_complaint(id):

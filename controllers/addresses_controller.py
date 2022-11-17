@@ -6,6 +6,7 @@ from controllers.auth_controller import authorize
 
 addresses_bp = Blueprint('addresses', __name__, url_prefix='/addresses')
 
+# Retrieve All Addresses: AUTHORISATION REQUIRED
 @addresses_bp.route('/')
 @jwt_required()
 def get_all_addresses():
@@ -14,6 +15,7 @@ def get_all_addresses():
     addresses = db.session.scalars(stmt)
     return AddressSchema(many=True).dump(addresses)
 
+# Retrieve One Address: AUTHORISATION REQUIRED
 @addresses_bp.route('/<int:id>/')
 @jwt_required()
 def get_one_address(id):
@@ -25,6 +27,7 @@ def get_one_address(id):
     else:
         return {'error': f'Addresses not found with id {id}'}, 404
 
+# Create New Address: AUTHORISATION REQUIRED
 @addresses_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_address():
@@ -46,10 +49,8 @@ def create_address():
     db.session.commit()
     # Respond to client
     return AddressSchema().dump(address), 201
-# Add unique error: already in use
-# except IntegrityError:
-#     return {'error': 'Email address already in use'}, 409
 
+# Update Address: AUTHORISATION REQUIRED
 @addresses_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_address(id):
@@ -71,6 +72,7 @@ def update_one_address(id):
     else:
         return {'error': f'Address not found with id {id}'}, 404
 
+# Delete Address: AUTHORISATION REQUIRED
 @addresses_bp.route('/<int:id>/', methods=['DELETE'])
 @jwt_required()
 def delete_one_address(id):

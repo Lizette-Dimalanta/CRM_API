@@ -21,6 +21,7 @@ def drop_db():
     db.drop_all()
     print("Tables Dropped.")
 
+# Seed Database
 @db_commands.cli.command('seed')
 def seed_db():
     profiles = [

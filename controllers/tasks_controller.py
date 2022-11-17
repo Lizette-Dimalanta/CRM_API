@@ -7,13 +7,14 @@ from controllers.auth_controller import authorize
 
 tasks_bp = Blueprint('tasks', __name__, url_prefix='/tasks')
 
+# Retrieve All Tasks
 @tasks_bp.route('/')
-# @jwt_required()
 def get_all_tasks():
     stmt     = db.select(Task)
     tasks = db.session.scalars(stmt)
     return TaskSchema(many=True).dump(tasks)
 
+# Retrieve One Task
 @tasks_bp.route('/<int:id>/')
 def get_one_task(id):
     stmt    = db.select(Task).filter_by(id=id)
@@ -23,6 +24,7 @@ def get_one_task(id):
     else:
         return {'error': f'Task not found with id {id}'}, 404
 
+# Create New Task: AUTHORISATION REQUIRED
 @tasks_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_task():
@@ -45,6 +47,7 @@ def create_task():
     # Respond to client
     return TaskSchema().dump(task), 201
 
+# Update Task: AUTHORISATION REQUIRED
 @tasks_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_task(id):
@@ -64,11 +67,11 @@ def update_one_task(id):
     else:
         return {'error': f'Task not found with id {id}'}, 404 
 
-
+# Delete Task: AUTHORISATION REQUIRED
 @tasks_bp.route('/<int:id>/', methods=['DELETE'])
 @jwt_required()
 def delete_one_task(id):
-    authorize('admin')
+    authorize()
     stmt    = db.select(Task).filter_by(id=id)
     task = db.session.scalar(stmt)
     if task:

@@ -7,12 +7,14 @@ from flask_jwt_extended import create_access_token, get_jwt_identity
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+# Retrieve All Employees
 @auth_bp.route('/employees/')
 def get_employees():
     stmt = db.select(Employee)
     employees = db.session.scalars(stmt)
     return EmployeeSchema(exclude=['password']).dump(employees)
 
+# Register New Employee
 @auth_bp.route('/register/', methods=['POST'])
 def auth_register():
     try:
@@ -29,8 +31,9 @@ def auth_register():
     except IntegrityError: 
         return {'error': 'Username already in use'}, 409
 
+# Login Employee
 @auth_bp.route('/login/', methods=['POST'])
-def auth_login():
+def auth_login(): 
     # Find employee by username
     stmt        = db.select(Employee).filter_by(username=request.json['username'])
     employee    = db.session.scalar(stmt)

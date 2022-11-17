@@ -7,13 +7,14 @@ from controllers.auth_controller import authorize
 
 profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
 
+# Retrieve All Profiles
 @profiles_bp.route('/')
-# @jwt_required()
 def get_all_profiles():
     stmt     = db.select(Profile)
     profiles = db.session.scalars(stmt)
     return ProfileSchema(many=True).dump(profiles)
 
+# Retrieve One Profile
 @profiles_bp.route('/<int:id>/')
 def get_one_profile(id):
     stmt    = db.select(Profile).filter_by(id=id)
@@ -23,6 +24,7 @@ def get_one_profile(id):
     else:
         return {'error': f'Profile not found with id {id}'}, 404
 
+# Create New Profile: AUTHORISATION REQUIRED
 @profiles_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_profile():
@@ -47,10 +49,8 @@ def create_profile():
     db.session.commit()
     # Respond to client
     return ProfileSchema().dump(profile), 201
-# Add unique error: already in use
-# except IntegrityError:
-#     return {'error': 'Email address already in use'}, 409
 
+# Update Profile: AUTHORISATION REQUIRED
 @profiles_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_profile(id):
@@ -73,7 +73,7 @@ def update_one_profile(id):
     else:
         return {'error': f'Profile not found with id {id}'}, 404
 
-
+# Delete Profile: AUTHORISATION REQUIRED
 @profiles_bp.route('/<int:id>/', methods=['DELETE'])
 @jwt_required()
 def delete_one_profile(id):

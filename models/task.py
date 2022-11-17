@@ -34,11 +34,14 @@ class TaskSchema(ma.Schema):
     employee   = fields.List(fields.Nested('EmployeeSchema'), exclude=['password'])
 
     # Task Validation
+    # Must have task name, minimum length of 1 character.
     name = fields.String(required=True, validate=Length(min=1, error='Must be at least 1 character.'))
+    # Must be one of the hard-coded values
     status = fields.String(load_default=VALID_STATUSES[0], validate=OneOf(VALID_STATUSES))
-    date_due = fields.String(required=True,validate=And(
-        Regexp('^[a-zA-Z0-9]+$', error='Must be in format DAY, MONTH, YEAR')))
+    # Must be in format DAY, MONTH, YEAR.
+    date_due = fields.String(validate=And(Regexp('^[a-zA-Z0-9]+$', error='Must be in format DAY, MONTH, YEAR')))
 
+    # Defining Fields
     class Meta:
         fields  = ('id', 'name', 'status', 'task_created', 'due_date', 'profile', 'employee')
         ordered = True

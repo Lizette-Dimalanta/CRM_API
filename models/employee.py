@@ -25,7 +25,9 @@ class EmployeeSchema(ma.Schema):
     tasks      = fields.List(fields.Nested('TaskSchema'), exclude=['employee'])
 
     # Employee Validation
+    # Must have username, must be unique, minimum length of 1 character.
     username = fields.String(required=True, unique=True, validate=Length(min=1, error='Must be at least 1 character.'))
 
+    # Defining fields
     class Meta:
         fields    = ('id', 'username', 'password', 'is_admin', 'profile', 'complaints', 'tasks')
