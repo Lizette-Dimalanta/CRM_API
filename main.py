@@ -1,6 +1,5 @@
 from flask import Flask
 from init import db, ma, bc, jwt
-from flask_marshmallow import Marshmallow
 
 # Import Controllers
 # from controllers.customers_controller import customers_bp
@@ -9,6 +8,7 @@ from controllers.auth_controller import auth_bp
 from controllers.profiles_controller import profiles_bp
 from controllers.addresses_controller import addresses_bp
 from controllers.complaints_controller import complaints_bp
+from controllers.tasks_controller import tasks_bp
 
 import os
 
@@ -47,11 +47,10 @@ def create_app():
     app.register_blueprint(profiles_bp)
     app.register_blueprint(addresses_bp)
     app.register_blueprint(complaints_bp)
+    app.register_blueprint(tasks_bp)
 
     @app.route('/')
     def index():
         return 'Hello'
 
     return app
-
-# Blueprint: Modularise flask application (like class)

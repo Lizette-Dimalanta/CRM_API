@@ -54,7 +54,6 @@ def update_one_complaint(id):
         complaint.subject     = request.json.get('subject') or complaint.subject
         complaint.description = request.json.get('description') or complaint.description
         complaint.entry_time  = datetime.now() or complaint.entry_time
-        complaint.occupation  = request.json.get('occupation') or complaint.occupation
         complaint.profile     = request.json.get('profile') or complaint.profile
         complaint.employee    = get_jwt_identity() or complaint.employee
         # Updates Changes

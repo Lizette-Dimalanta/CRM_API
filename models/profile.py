@@ -18,15 +18,17 @@ class Profile(db.Model):
     # Foreign Key Relationship
     employee    = db.relationship('Employee', back_populates='profile', cascade ='all, delete')
     address     = db.relationship('Address', back_populates='profile', cascade ='all, delete')
-    complaint  = db.relationship('Complaint', back_populates='profile', cascade ='all, delete')
+    complaints   = db.relationship('Complaint', back_populates='profile', cascade ='all, delete')
+    task       = db.relationship('Task', back_populates='profile', cascade ='all, delete')
 
 # Marshmallow: Profile Schema
 class ProfileSchema(ma.Schema):
     # Nested Attributes
     employee    = fields.List(fields.Nested('EmployeeSchema'), exclude=['password', 'profile'])
     address     = fields.List(fields.Nested('AddressSchema'))
-    complaint  = fields.List(fields.Nested('ComplaintSchema'), exclude=['complaint', 'profile'])
+    complaints   = fields.List(fields.Nested('ComplaintSchema'), exclude=['complaints', 'profile'])
+    task        = fields.List(fields.Nested('TaskSchema'), exclude=['task', 'profile'])
 
     class Meta:
-        fields  = ('id', 'first_name', 'last_name', 'phone', 'email', 'is_customer', 'join_date', 'occupation', 'employee', 'address', 'complaint')
+        fields  = ('id', 'first_name', 'last_name', 'phone', 'email', 'is_customer', 'join_date', 'occupation', 'employee', 'address', 'complaints', 'task')
         ordered = True

@@ -5,6 +5,7 @@ from models.employee import Employee
 from models.profile import Profile
 from models.address import Address
 from models.complaint import Complaint
+from models.task import Task
 
 db_commands = Blueprint('db', __name__)
 
@@ -64,7 +65,22 @@ def seed_db():
             username = 'devtest',
             password = bc.generate_password_hash('frenchfries').decode('utf-8'),
             is_admin = True,
-            profile = profiles[0]
+            profile  = profiles[0]
+        )
+    ]
+
+    # Add complaints to database
+    db.session.add_all(employees)
+    # Push to database
+    db.session.commit()
+
+    complaints = [
+        Complaint(
+            subject     = 'Devtest 1',
+            description = 'This is a test complaint.',
+            entry_time  = datetime.now(),
+            profile     = profiles[0],
+            employee    = employees[0]
         )
     ]
 
@@ -73,18 +89,19 @@ def seed_db():
     # Push to database
     db.session.commit()
 
-    complaints = [
-        Complaint(
-            subject = 'Devtest 1',
-            description = 'This is a test complaint.',
-            entry_time  = datetime.now(),
-            profile = profiles[0],
-            employee = employees[0]
+    tasks = [
+        Task(
+            name         = 'Send report to client',
+            status       = 'In Progress',
+            task_created = datetime.now(),
+            date_due     = 'Wednesday, 15 December 2022',
+            profile      = profiles[0],
+            employee     = employees[0]
         )
     ]
 
-    # Add complaints to database
-    db.session.add_all(complaints)
+    # Add tasks to database
+    db.session.add_all(tasks)
     # Push to database
     db.session.commit()
 
