@@ -61,7 +61,7 @@ However, custom development is not cheap. It may be a high cost for a small busi
 
 ### **Why have you chosen this database system. What are the drawbacks compared to others?**
 
-As freelancers' needs for a CRM differ between industries, this project is built to provide the core  foundation that is later built upon accordingly, to accommodate the extra features required for the CRM's full efficiency for their work. In this case, the Relational Database Management System (RDBMS) used for this project is **PostgreSQL** - a flexible object-relational database management system that allows **full extendability** in the growth of this application. 
+As freelancers' needs for a CRM differ between industries, this project is built to provide the core  foundation that is later built upon accordingly, to accommodate the extra features required for the CRM's full efficiency for their work. In this case, the Relational Database Management System (RDBMS) used for this project is **PostgreSQL** - a flexible object-relational database management system that allows **full extendability** in the growth of this application.
 
 **Pros:**
 
@@ -78,21 +78,248 @@ As freelancers' needs for a CRM differ between industries, this project is built
 
 ## Q4
 
-------------------------------------------------
+### **Identify and discuss the key functionalities and benefits of an ORM**
+
+An Object Relational Mapper (ORM) is a software tool that give developers the ability to interact with relational databases like SQL, using object-oriented programming languages like Python, PHP and .NET. This CRM project is buit upon SQLAlchemy, a high-performance ORM tool that optimises database access.
+
+**Advantages:**
+
+- Using an ORM can save up to 20-50% of a developer's overall development time.
+- ORM tools use code templates, setting the design patterns standards for other developers to allow for better consistency.
+- Reduces testing times dramatically as code templates are tested by the software vendor and other developers.
 
 ## Q5
 
-------------------------------------------------
+### **Document all endpoints for your API**
+
+---
+
+### **Profile Routes**
+
+`/profiles/`
+
+**Methods**: `['POST']`
+
+- **Arguments**: None
+- **Description**: Allows authorised user to create a new profile
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: `first_name`, `last_name`, `phone`, `email`, `is_customer`, `occupation`
+
+**Methods**: `['GET']`
+
+- **Arguments**: None
+- **Description**: Returns JSON list of all available profiles
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+`/profiles/<int:id>/`
+
+**Methods**: `['GET']`
+
+- **Arguments**: `profile_id` of requested profile
+- **Description**: Allows authorised user to retrieve a profile associated to specified `profile_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+**Methods**: `['PUT','PATCH']`
+
+- **Arguments**: `profile_id` of profile to update
+- **Description**: Allows authorised user to update a profile associated to specified `profile_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: Include either of the following to update - `first_name`, `last_name`, `phone`, `email`, `is_customer`, `join_date`, `occupation`
+
+**Methods**: `['DELETE']`
+
+- **Arguments**: `profile_id` of profile to delete
+- **Description**: Allows authorised user to delete a profile associated to specified `profile_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+---
+
+### **Address Routes**
+
+`/addresses/`
+
+**Methods**: `['POST']`
+
+- **Arguments**: None
+- **Description**: Allows authorised user to create a new address
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: `apt_number`, `street_number`, `street_name`, `suburb`, `state`, `zip`, `country`
+
+**Methods**: `['GET']`
+
+- **Arguments**: None
+- **Description**: Returns JSON list of all available addresses
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+`/addresses/<int:id>/`
+
+**Methods**: `['GET']`
+
+- **Arguments**: `address_id` of requested address
+- **Description**: Allows authorised user to retrieve an address associated to specified `address_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+**Methods**: `['PUT','PATCH']`
+
+- **Arguments**: `address_id` of address to update
+- **Description**: Allows authorised user to update an address associated to specified `address_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: Include either of the following to update - `apt_number`, `street_number`, `street_name`, `suburb`, `state`, `zip`, `country`
+
+**Methods**: `['DELETE']`
+
+- **Arguments**: `address_id` of address to delete
+- **Description**: Allows authorised user to delete an address associated to specified `address_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+---
+
+### **Employee (Auth) Routes**
+
+`/auth/register/`
+
+**Methods**: `['POST']`
+
+- **Arguments**: None
+- **Description**: Allows authorised user to create a new Employee, Profile and Address instance
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**:
+  - Employee: `username`, `password`, `is_admin`
+  - Profile: `first_name`, `last_name`, `phone`, `email`, `is_customer`, `join_date`, `occupation`
+  - Address: `apt_number`, `street_number`, `street_name`, `suburb`, `state`, `zip`, `country`
+
+`/auth/login/`
+
+**Methods**: `['POST']`
+
+- **Arguments**: None
+- **Description**: Login route to initiate token (authorise and authenticate)
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: `username`, `password`
+
+---
+
+### **Complaints Routes**
+
+`/complaints/`
+
+**Methods**: `['POST']`
+
+- **Arguments**: None
+- **Description**: Creates a new complaint instance
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: `subject`, `description`, `profile_id`, `employee_id`
+
+**Methods**: `['GET']`
+
+- **Arguments**: None
+- **Description**: Returns JSON list of all available complaints
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: None
+
+`/complaints/<int:id>/`
+
+**Methods**: `['GET']`
+
+- **Arguments**: `complaint_id` of requested complaint
+- **Description**: Retrieve a complaint associated to specified `complaint_id`
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: None
+
+**Methods**: `['PUT','PATCH']`
+
+- **Arguments**: `complaint_id` of complaint to update
+- **Description**: Update a complaint associated to specified `complaint_id`
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: Include either of the following to update - `subject`, `description`, `profile_id`, `employee_id`
+
+**Methods**: `['DELETE']`
+
+- **Arguments**: `complaint_id` of complaint to delete
+- **Description**: Allows authorised user to delete an complaint associated to specified `complaint_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
+
+---
+
+### **Task Routes**
+
+`/tasks/`
+
+**Methods**: `['POST']`
+
+- **Arguments**: None
+- **Description**: Allows authorised user to create a task
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: `name`, `status`, `due_date`, `profile`, `employee`
+
+**Methods**: `['GET']`
+
+- **Arguments**: None
+- **Description**: Returns JSON list of all available tasks
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: None
+
+`/tasks/<int:id>/`
+
+**Methods**: `['GET']`
+
+- **Arguments**: `task_id` of requested task
+- **Description**: Retrieve a task associated to specified `task_id`
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: None
+
+**Methods**: `['PUT','PATCH']`
+
+- **Arguments**: `task_id` of task to update
+- **Description**: Update a task associated to specified `task_id`
+- **Authentication**: None
+- **Authorisation**: None
+- **Request Body**: Include either of the following to update - `name`, `status`, `due_date`, `profile`, `employee`
+
+**Methods**: `['DELETE']`
+
+- **Arguments**: `task_id` of task to delete
+- **Description**: Allows authorised user to delete a task associated to specified `task_id`
+- **Authentication**: `@jwt_required()`
+- **Authorisation**: `authorize()` required
+- **Request Body**: None
 
 ## Q6
 
-### **CRM ERD**
+### **An ERD for your app**
 
 ![ERD](docs/ERD.jpg)
 
 ## Q7
 
-### **Third-Party Services**
+### **Detail any third party services that your app will use**
 
 - `Flask`
 - `Flask_Bcrypt`
@@ -106,12 +333,13 @@ As freelancers' needs for a CRM differ between industries, this project is built
 - `python-dotenv`
 - `SQLAlchemy`
 
-## Q8 Cardinality: CRM Models
+## Q8
+
+### **Cardinality: CRM Models**
 
 ### Address
 
 ![AddressModel](docs/addressmodel.jpg)
-
 
 ### **Profile**
 
@@ -121,7 +349,6 @@ As freelancers' needs for a CRM differ between industries, this project is built
 
 ![EmployeeModel](docs/employeemodel.jpg)
 
-
 ### **Complaint**
 
 ![ComplaintModel](docs/complaintmodel.jpg)
@@ -130,11 +357,24 @@ As freelancers' needs for a CRM differ between industries, this project is built
 
 ![TaskModel](docs/taskmodel.jpg)
 
+## Q9
+
+### **Discuss the database relations to be implemented in your application**
+
+---------------------------------
+
+## Q10
+
+## **Describe the way tasks are allocated and tracked in your project**
+
 ## **Trello Board**
 
 [Trello Board Link](https://trello.com/invite/b/eqHmvlR7/ATTIea4cdb906d29fd210b769b7bd63005918C722C6F/lizettedimalantat2a2)
 
-REFERENCES
+## **REFERENCES**
 
 Q3)
 https://www.guru99.com/introduction-postgresql.html
+
+Q4)
+https://www.alachisoft.com/resources/articles/orm.html

@@ -7,16 +7,20 @@ from controllers.auth_controller import authorize
 
 profiles_bp = Blueprint('profiles', __name__, url_prefix='/profiles')
 
-# Retrieve All Profiles
-@profiles_bp.route('/')
+# Retrieve All Profiles: AUTHORISATION REQUIRED
+@profiles_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_all_profiles():
+    authorize()
     stmt     = db.select(Profile)
     profiles = db.session.scalars(stmt)
     return ProfileSchema(many=True).dump(profiles)
 
-# Retrieve One Profile
-@profiles_bp.route('/<int:id>/')
+# Retrieve One Profile: AUTHORISATION REQUIRED
+@profiles_bp.route('/<int:id>/', methods=['GET'])
+@jwt_required()
 def get_one_profile(id):
+    authorize()
     stmt    = db.select(Profile).filter_by(id=id)
     profile = db.session.scalar(stmt)
     if profile:
@@ -42,7 +46,7 @@ def create_profile():
         company     = data['company'],
         employee_id = get_jwt_identity(),
     # Foreign Key Relationship
-        address     = data['address']
+        address     = data.get['address']
     )
     # Add and commit user to DB
     db.session.add(profile)
@@ -51,7 +55,7 @@ def create_profile():
     return ProfileSchema().dump(profile), 201
 
 # Update Profile: AUTHORISATION REQUIRED
-@profiles_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
+@profiles_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_one_profile(id):
     authorize()
@@ -74,10 +78,10 @@ def update_one_profile(id):
         return {'error': f'Profile not found with id {id}'}, 404
 
 # Delete Profile: AUTHORISATION REQUIRED
-@profiles_bp.route('/<int:id>/', methods=['DELETE'])
+@profiles_bp.route('/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_one_profile(id):
-    authorize('admin')
+    authorize()
     stmt    = db.select(Profile).filter_by(id=id)
     profile = db.session.scalar(stmt)
     if profile:

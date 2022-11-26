@@ -8,8 +8,7 @@ from controllers.auth_controller import authorize
 complaints_bp = Blueprint('complaints', __name__, url_prefix='/complaints')
 
 # Retrieve All Complaints
-@complaints_bp.route('/')
-# @jwt_required()
+@complaints_bp.route('/complaints/')
 def get_all_complaints():
     stmt     = db.select(Complaint)
     complaints = db.session.scalars(stmt)
@@ -25,11 +24,9 @@ def get_one_complaint(id):
     else:
         return {'error': f'Complaint not found with id {id}'}, 404
 
-# Create New Complaint: AUTHORISATION REQUIRED
-@complaints_bp.route('/', methods=['POST'])
-@jwt_required()
+# Create New Complaint
+@complaints_bp.route('/<int:id>', methods=['POST'])
 def create_complaint():
-    authorize()
     # Create new Complaint model instance
     complaint = Complaint( 
         subject     = request.json['subject'],
@@ -47,11 +44,9 @@ def create_complaint():
     # Respond to client
     return ComplaintSchema().dump(complaint), 201
 
-# Update Complaint: AUTHORISATION REQUIRED
+# Update Complaint
 @complaints_bp.route('/<int:id>/', methods=['PUT', 'PATCH'])
-@jwt_required()
 def update_one_complaint(id):
-    authorize()
     stmt    = db.select(Complaint).filter_by(id=id)
     complaint = db.session.scalar(stmt)
     if complaint:
