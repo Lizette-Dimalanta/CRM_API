@@ -39,9 +39,9 @@ class ProfileSchema(ma.Schema):
         Length(min=1, error='Must be at least 1 character.'), 
         Regexp('^[a-zA-Z]+$', error='Only letters and spaces are allowed.')))
     # Must have phone number.
-    phone = fields.Integer(required=True)
+    phone = fields.Integer(required=True, unique=True)
     # Must have email address.
-    email = fields.String(required=True)
+    email = fields.String(required=True, unique=True)
     # Must state profile type: Is the profile a customer?
     is_customer = fields.Boolean(required=True)
 

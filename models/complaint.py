@@ -26,8 +26,8 @@ class ComplaintSchema(ma.Schema):
     # Complaint Validation
     # Must have subject, minimum length of 1 character.
     subject = fields.String(required=True, validate=Length(min=1, error='Must be at least 1 character.'))
-    # Must have description, minimum length of 1 character.
-    description = fields.String(required=True, validate=Length(min=1, error='Must be at least 1 character.'))
+    # Minimum length of 1 character.
+    description = fields.String(validate=Length(min=1, error='Must be at least 1 character.'))
 
     class Meta:
         fields  = ('id', 'subject', 'description', 'entry_time', 'profile', 'employee')
