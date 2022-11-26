@@ -57,6 +57,33 @@ Building custom CRMs are most commonly seen in larger enterprise settings, where
 
 However, custom development is not cheap. It may be a high cost for a small business or freelancer to fund developers to create a customised CRM (hence why this is implemented more on larger-scaled enterprises). Due to this, I have built the foundations of a CRM API web server to lessen the time and costs for the development process when built upon as a full-scale web app.
 
+## Q3
+
+### **Why have you chosen this database system. What are the drawbacks compared to others?**
+
+As freelancers' needs for a CRM differ between industries, this project is built to provide the core  foundation that is later built upon accordingly, to accommodate the extra features required for the CRM's full efficiency for their work. In this case, the Relational Database Management System (RDBMS) used for this project is **PostgreSQL** - a flexible object-relational database management system that allows **full extendability** in the growth of this application. 
+
+**Pros:**
+
+- Allows for **inheritance** and **function overloading**, and has the ability to process **complex datatypes**.
+- **Great language support:** Supporting several languages such as **Python**, **Java** and **C++**.
+- **Open-source:** Allows full flexibility in using, modifying or creating **modular** **applications**.
+- Highly **flexible** and **expandable**.
+- Data security: Allows for strong data security and file protection through access control and the availability of several encryption connection options.
+
+**Cons**:
+
+- **Speed**: PostgreSQL has a slower runtime due to its prioritisation of compatibility.
+- PostgreSQL documentation is only available in English.
+
+## Q4
+
+------------------------------------------------
+
+## Q5
+
+------------------------------------------------
+
 ## Q6
 
 ### **CRM ERD**
@@ -106,3 +133,8 @@ However, custom development is not cheap. It may be a high cost for a small busi
 ## **Trello Board**
 
 [Trello Board Link](https://trello.com/invite/b/eqHmvlR7/ATTIea4cdb906d29fd210b769b7bd63005918C722C6F/lizettedimalantat2a2)
+
+REFERENCES
+
+Q3)
+https://www.guru99.com/introduction-postgresql.html
